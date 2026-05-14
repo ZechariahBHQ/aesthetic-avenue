@@ -213,13 +213,10 @@ function vitePluginCleanHtml(): Plugin {
   return {
     name: "clean-html",
     enforce: "post" as const,
-    transformIndexHtml: {
-      enforce: "post" as const,
-      transform(html: string) {
-        if (process.env.NODE_ENV !== "production") return html;
-        // Remove any remaining raw /src/*.tsx or /src/*.ts script tags
-        return html.replace(/<script[^>]+src="\/src\/[^"]+\.(tsx?|jsx?)"[^>]*><\/script>/g, "");
-      },
+    transformIndexHtml(html: string) {
+      if (process.env.NODE_ENV !== "production") return html;
+      // Remove any remaining raw /src/*.tsx or /src/*.ts script tags (any attribute order)
+      return html.replace(/<script[^>]*src="\/src\/[^"]+\.(tsx?|jsx?)[^"]*"[^>]*><\/script>/g, "");
     },
   };
 }
