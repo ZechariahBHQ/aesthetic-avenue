@@ -221,7 +221,8 @@ function vitePluginCleanHtml(): Plugin {
   };
 }
 
-const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy(), vitePluginCleanHtml()];
+const isProd = process.env.NODE_ENV === 'production';
+const plugins = [react(), tailwindcss(), ...(isProd ? [] : [jsxLocPlugin()]), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy(), vitePluginCleanHtml()];
 
 export default defineConfig({
   plugins,
@@ -237,6 +238,11 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    rollupOptions: {
+      input: {
+        main: path.resolve(import.meta.dirname, "client", "src", "main.tsx"),
+      },
+    },
   },
   server: {
     port: 3000,
