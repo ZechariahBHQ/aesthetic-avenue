@@ -203,7 +203,28 @@ function vitePluginStorageProxy(): Plugin {
   };
 }
 
-const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy()];
+// ── Production HTML cleanup plugin ────────────────────────────────────────────
+// Some Manus runtime plugins append the built JS bundle rather than replacing
+// the original <script src="/src/main.tsx"> entry point, leaving both in the
+// output HTML. The browser then tries to load the raw .tsx file (which doesn't
+// exist in production) alongside the real bundle. This post-transform strips
+// the stray dev-only script tag so only the Vite-built bundle is loaded.
+function vitePluginCleanHtml(): Plugin {
+  return {
+    name: "clean-html",
+    enforce: "post" as const,
+    transformIndexHtml: {
+      enforce: "post" as const,
+      transform(html: string) {
+        if (process.env.NODE_ENV !== "production") return html;
+        // Remove any remaining raw /src/*.tsx or /src/*.ts script tags
+        return html.replace(/<script[^>]+src="\/src\/[^"]+\.(tsx?|jsx?)"[^>]*><\/script>/g, "");
+      },
+    },
+  };
+}
+
+const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy(), vitePluginCleanHtml()];
 
 export default defineConfig({
   plugins,
