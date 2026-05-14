@@ -165,27 +165,6 @@ export default function About() {
         </div>
       </section>
 
-      {/* ── STATS — trust signals ── */}
-      <section className="py-20 md:py-24" style={{ background: "var(--aa-parchment)" }}>
-        <div className="container">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0 md:divide-x" style={{ borderColor: "rgba(184,154,122,0.2)" }}>
-            {[
-              { num: "7+", label: "Service Categories" },
-              { num: "30+", label: "Individual Treatments" },
-              { num: "100%", label: "Personalised Care" },
-              { num: "0", label: "Downtime on Most Treatments" },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center md:px-8">
-                <p className="aa-display text-5xl md:text-6xl mb-2" style={{ color: "var(--aa-bronze)" }}>
-                  {stat.num}
-                </p>
-                <p className="aa-label" style={{ color: "var(--aa-espresso-mid)" }}>{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── CTA ── */}
       <section className="py-16 md:py-20" style={{ background: "var(--aa-espresso)" }}>
         <div className="container text-center">
