@@ -10,6 +10,35 @@ async function startServer() {
   const app = express();
   const server = createServer(app);
 
+  // ── /manus-storage/ proxy ──────────────────────────────────────────────────
+  // In development, this is handled by vitePluginStorageProxy in vite.config.ts.
+  // In production we must proxy it ourselves: presign via Forge, then 307-redirect.
+  app.use("/manus-storage", async (req: any, res: any) => {
+    const key = (req.path as string).replace(/^\//, "");
+    const forgeBaseUrl = (process.env.BUILT_IN_FORGE_API_URL || "").replace(/\/+$/, "");
+    const forgeKey = process.env.BUILT_IN_FORGE_API_KEY;
+
+    if (!forgeBaseUrl || !forgeKey) {
+      res.status(404).send("Storage not configured");
+      return;
+    }
+    try {
+      const forgeUrl = new URL("v1/storage/presign/get", forgeBaseUrl + "/");
+      forgeUrl.searchParams.set("path", key);
+      const forgeResp = await fetch(forgeUrl.toString(), {
+        headers: { Authorization: `Bearer ${forgeKey}` },
+      });
+      if (!forgeResp.ok) { res.status(502).send("Storage error"); return; }
+      const { url } = (await forgeResp.json()) as { url: string };
+      if (!url) { res.status(502).send("Empty signed URL"); return; }
+      // 307 so the browser retains the HTTP method (GET) and caches the signed URL
+      res.setHeader("Cache-Control", "public, max-age=300"); // 5-min cache
+      res.redirect(307, url);
+    } catch {
+      res.status(502).send("Storage proxy error");
+    }
+  });
+
   // Serve static files from dist/public in production
   const staticPath =
     process.env.NODE_ENV === "production"
@@ -19,7 +48,7 @@ async function startServer() {
   app.use(express.static(staticPath));
 
   // Handle client-side routing - serve index.html for all routes
-  app.get("*", (_req, res) => {
+  app.get("*", (_req: any, res: any) => {
     res.sendFile(path.join(staticPath, "index.html"));
   });
 
