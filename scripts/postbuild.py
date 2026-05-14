@@ -52,6 +52,14 @@ html = re.sub(
     html
 )
 
+# Remove unresolved Vite analytics placeholder script (contains %VITE_...%)
+html = re.sub(
+    r'<script[^>]*src="%VITE_[^"]+%[^"]*"[^>]*>\s*<\/script>',
+    '',
+    html
+)
+print("Removed unresolved VITE analytics placeholder script tags.")
+
 # Build injection tags
 css_tag = f'<link rel="stylesheet" crossorigin href="/assets/{css_file}">' if css_file else ''
 js_tag = f'<script type="module" crossorigin src="/assets/{js_file}"></script>'
