@@ -382,16 +382,7 @@ function CategorySection({ cat, index }: { cat: Category; index: number }) {
               ))}
             </div>
 
-            <div className="aa-fade-up mt-8">
-              <a
-                href={BOOKING_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="aa-btn"
-              >
-                <span>Book {cat.name}</span>
-              </a>
-            </div>
+
           </div>
         </div>
       </div>
@@ -436,10 +427,10 @@ export default function Services() {
             Services & Pricing
           </p>
           <h1
-            className="aa-display text-5xl md:text-6xl lg:text-7xl mb-6"
+            className="aa-brand text-5xl md:text-6xl lg:text-7xl mb-6"
             style={{ color: "#FAF7F3" }}
           >
-            Our <em>Treatments</em>
+            Our Treatments
           </h1>
           <p
             className="text-base max-w-lg leading-relaxed"
@@ -484,24 +475,18 @@ export default function Services() {
             Ready to begin?
           </p>
           <h2
-            className="aa-display text-4xl md:text-5xl mb-6"
+            className="aa-brand text-4xl md:text-5xl mb-8"
             style={{ color: "#FAF7F3" }}
           >
-            Book your <em>appointment</em>
+            Book Online
           </h2>
-          <p
-            className="text-sm max-w-sm mx-auto mb-8"
-            style={{ fontFamily: "'DM Sans', sans-serif", color: "rgba(250,247,243,0.6)", fontWeight: 300 }}
-          >
-            All bookings are made online through our Timely booking system. Select your service and choose a time that suits you.
-          </p>
           <a
             href={BOOKING_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="aa-btn-filled"
           >
-            Book Online Now
+            Book Your Appointment
           </a>
         </div>
       </section>
