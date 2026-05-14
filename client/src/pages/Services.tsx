@@ -27,12 +27,12 @@ interface Category {
 }
 
 const IMGS = {
-  reception: "/manus-storage/photo_reception_ae08e6c1.jpeg",
-  reception2: "/manus-storage/photo_reception2_835db0be.jpeg",
-  flowers: "/manus-storage/photo_studio_flowers2_2cbcf074.jpeg",
-  products: "/manus-storage/photo_products_4651c2b0.jpeg",
-  treatment: "/manus-storage/photo_treatment_room_c571a07b.jpeg",
-  wide: "/manus-storage/photo_studio_wide_1fc7f13d.jpeg",
+  reception: "/manus-storage/reception_b76bc51a.webp",
+  reception2: "/manus-storage/reception2_de75b9b0.webp",
+  flowers: "/manus-storage/studio_flowers2_b92aae29.webp",
+  products: "/manus-storage/products_fc4f20ab.webp",
+  treatment: "/manus-storage/treatment_3289ebb4.webp",
+  wide: "/manus-storage/hero_04e23112.webp",
 };
 
 const categories: Category[] = [
@@ -352,6 +352,8 @@ function CategorySection({ cat, index }: { cat: Category; index: number }) {
                 src={cat.image}
                 alt={cat.name}
                 className="w-full h-72 md:h-96 object-cover hover:scale-105 transition-transform duration-700"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           </div>

@@ -10,6 +10,9 @@ import { Link, useLocation } from "wouter";
 const BOOKING_URL = "https://bookings.gettimely.com/aestheticavenuensw/bb/book";
 const LOGO_LIGHT = "/manus-storage/aa_logo_light_d35bc082.webp";
 const LOGO_WHITE = "/manus-storage/aa_logo_white_e8381974.webp";
+// Preload both logos to avoid flash on scroll
+const _preloadLight = new Image(); _preloadLight.src = LOGO_LIGHT;
+const _preloadWhite = new Image(); _preloadWhite.src = LOGO_WHITE;
 
 const navLinks = [
   { label: "Home", href: "/" },
