@@ -95,7 +95,7 @@ export default function Home() {
               <p className="text-base leading-relaxed mb-8" style={{ fontFamily: "'DM Sans', sans-serif", color: "var(--aa-espresso-mid)", fontWeight: 300 }}>
                 From glowing skin treatments to perfectly sculpted brows and lashes, Aesthetic Avenue combines results-driven care with a luxury experience tailored to you.
               </p>
-              <a href="/services" className="aa-btn"><span>View Services & Pricing</span></a>
+              <a href="/about" className="aa-btn"><span>Our Story</span></a>
             </div>
 
             {/* Two portrait photos — unique to this section */}
@@ -168,8 +168,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── 4. CLOSING CTA — address + Instagram, no duplicate booking button ── */}
-      <section id="contact" className="relative py-24 md:py-32 overflow-hidden" style={{ background: "var(--aa-espresso)" }}>
+      {/* ── 4. CLOSING CTA — teaser for contact page ── */}
+      <section className="relative py-24 md:py-32 overflow-hidden" style={{ background: "var(--aa-espresso)" }}>
         <div className="absolute inset-0">
           <img
             src={IMGS.treatment}
@@ -222,15 +222,21 @@ export default function Home() {
               </a>
             </div>
 
-            <div className="mt-10">
+            <div className="mt-10 flex flex-wrap gap-4">
               <a
                 href={BOOKING_URL}
                 target="_blank"
                 rel="noopener noreferrer"
+                className="aa-btn-filled"
+              >
+                Book Your Appointment
+              </a>
+              <a
+                href="/contact"
                 className="aa-btn"
                 style={{ borderColor: "rgba(250,247,243,0.4)", color: "#FAF7F3" }}
               >
-                <span>Book Your Appointment</span>
+                <span>Find the Studio</span>
               </a>
             </div>
           </div>

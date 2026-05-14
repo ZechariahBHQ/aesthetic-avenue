@@ -41,8 +41,8 @@ export default function Footer() {
               {[
                 { label: "Home", href: "/" },
                 { label: "Services & Pricing", href: "/services" },
-                { label: "About Rachael", href: "/#about" },
-                { label: "Contact", href: "/#contact" },
+                { label: "About", href: "/about" },
+                { label: "Contact", href: "/contact" },
                 { label: "Book Online", href: BOOKING_URL },
               ].map((link) => (
                 <a
