@@ -2,6 +2,8 @@ import express from "express";
 import { createServer } from "http";
 import path from "path";
 import { fileURLToPath } from "url";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -9,6 +11,32 @@ const __dirname = path.dirname(__filename);
 async function startServer() {
   const app = express();
   const server = createServer(app);
+
+  // ── Security middleware ────────────────────────────────────────────────────
+  // helmet: sets X-Content-Type-Options, X-Frame-Options, HSTS, CSP, etc.
+  app.use(helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "https://manus-analytics.com"],
+        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
+        imgSrc: ["'self'", "data:", "https:", "blob:"],
+        connectSrc: ["'self'", "https:"],
+        frameSrc: ["'none'"],
+      },
+    },
+  }));
+
+  // Global rate limiter — 200 requests per 15 minutes per IP
+  const globalLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 200,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: "Too many requests, please try again later.",
+  });
+  app.use(globalLimiter);
 
   // ── /manus-storage/ proxy ──────────────────────────────────────────────────
   // In development, this is handled by vitePluginStorageProxy in vite.config.ts.
